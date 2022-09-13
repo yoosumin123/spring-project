@@ -26,8 +26,6 @@
 	
 	
 <!-- 타일즈 실습 설정 -->
-  
- 
     <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>  <!-- 타일즈 파일 두 개 모두 읽는다  -->
@@ -42,9 +40,8 @@
 		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
 	</beans:bean>
 
-<!-- 인터셉터 실습 설정 -->
-     
-    
+
+<!-- 인터셉터 실습 설정 -->  
    <mvc:interceptors>
     	<mvc:interceptor>
 	      <mvc:mapping path="/*/*.do"/>
@@ -52,6 +49,13 @@
 	</mvc:interceptor>
 </mvc:interceptors>
 
+
+<!-- 멀티파트 리졸버 -->
+	<beans:bean id="multipartResolver" 	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="52428800" />
+		<beans:property name="maxInMemorySize" value="52428800" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
 	
 	
 </beans:beans>

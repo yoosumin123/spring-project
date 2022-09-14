@@ -34,6 +34,10 @@
   <form name="articleForm" method="post"   action="${contextPath}/board/addArticle.do"   enctype="multipart/form-data">
     <table border="0" align="center">
      <tr>
+	   <td align="right">작성자 </td>
+	   <td colspan="2" align="left"><input type="text" size="20"  maxlength="100" value="${member.name}" readonly /></td>
+	 </tr>
+     <tr>
 	   <td align="right">글제목: </td>
 	   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
 	 </tr>

@@ -94,11 +94,19 @@ public class MemberControllerImpl   implements MemberController {
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 	ModelAndView mav = new ModelAndView();
 	memberVO = memberService.login(member);
-	if(memberVO != null) {
+	if(memberVO != null) { // 로그인 되어있을 경우
 		    HttpSession session = request.getSession();
 		    session.setAttribute("member", memberVO);
-		    session.setAttribute("isLogOn", true);
-		    mav.setViewName("redirect:/member/listMembers.do");
+		    session.setAttribute("isLogOn", true); // isLogOn을 true로 세팅한다.
+		    String action = (String) session.getAttribute("action"); // session에 미리 저장된 action값을 가져온다
+		    
+		    if (action != null) { // action 값이 null이 아니면 redirect 이용해서 action으로 이동한다.
+				mav.setViewName("redirect:" + action);
+			
+		    }else { // action 값이 null 일 경우에는 listMembers로 이동한다.
+				mav.setViewName("redirect:/member/listMembers.do");
+			}
+		  
 	}else {
 		    rAttr.addAttribute("result","loginFailed");
 		    mav.setViewName("redirect:/member/loginForm.do");
@@ -111,18 +119,22 @@ public class MemberControllerImpl   implements MemberController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		session.removeAttribute("member");
-		session.removeAttribute("isLogOn");
+		session.removeAttribute("isLogOn");  
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/member/listMembers.do");
 		return mav;
 	}	
 
+	// 로그인 요청 처리하는 form 메소드
 	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
-	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
+	private ModelAndView form(@RequestParam(value= "result", required=false) String result, 
+							  @RequestParam(value= "action", required=false) String action, //action값을 브라우저에서 전달받음
 						       HttpServletRequest request, 
 						       HttpServletResponse response) throws Exception {
 		//String viewName = getViewName(request);
 		String viewName = (String)request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action); // session에 action 이름으로 action값을 바인딩
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result",result);
 		mav.setViewName(viewName);

@@ -99,7 +99,7 @@ public class MemberControllerImpl   implements MemberController {
 		    session.setAttribute("member", memberVO);
 		    session.setAttribute("isLogOn", true); // isLogOn을 true로 세팅한다.
 		    String action = (String) session.getAttribute("action"); // session에 미리 저장된 action값을 가져온다
-		    
+		    session.removeAttribute("action");
 		    if (action != null) { // action 값이 null이 아니면 redirect 이용해서 action으로 이동한다.
 				mav.setViewName("redirect:" + action);
 			

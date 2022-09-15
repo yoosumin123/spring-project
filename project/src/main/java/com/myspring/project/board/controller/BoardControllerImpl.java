@@ -18,8 +18,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myspring.project.board.service.BoardService;
 import com.myspring.project.board.vo.ArticleVO;
 import com.myspring.project.member.vo.MemberVO;
+import com.sun.source.tree.WhileLoopTree;
 
 // Controller 어노테이션을 적용
 @Controller("boardController")
@@ -84,14 +87,13 @@ public class BoardControllerImpl implements BoardController{
 			} // 글 정보를 추가한 후 업로드한 이미지 파일을 글 번호로 명명한 폴더로 이동한다.
 			
 			message = "<script>"; // 새 글을 추가한 후 메시지를 전달
-			message += "alert('새글을 추가했습니다.);";
-			message += "location.href='"
-						+multipartRequest.getContextPath()+"/board/listArticles.do'; ";
+			message += "alert('새 글을 추가했습니다.');";
+			message += "location.href='"+multipartRequest.getContextPath()+"/board/listArticles.do'; ";
 			message += "</script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED); //ResponseEntity를 이용해 HTML 형식으로 전송한다.
 		
 		} catch (Exception e) {
-			File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+"imageFileName");
+			File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName);
 			srcFile.delete();
 			
 			message = "<script>"; // 오류 발생 시 오류 메시지를 전달
@@ -104,6 +106,81 @@ public class BoardControllerImpl implements BoardController{
 		}
 		return resEnt;
 	}
+	
+	  
+	@RequestMapping(value ="/board/*Form.do", method = RequestMethod.GET)
+	private ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/board/viewArticle.do", method=RequestMethod.GET)
+	public ModelAndView viewArticle(@RequestParam("articleNO") int articleNO, 
+									HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String viewName = (String)request.getAttribute("viewName");
+		articleVO = boardService.viewArticle(articleNO);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("article", articleVO);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/board/modArticle.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity modArticle(MultipartHttpServletRequest multipartRequest,
+										HttpServletResponse response) throws Exception{
+		multipartRequest.setCharacterEncoding("utf-8");
+		Map<String, Object> articleMap = new HashMap<String, Object>();
+		Enumeration enu = multipartRequest.getParameterNames();
+		while (enu.hasMoreElements()) {
+			String name = (String) enu.nextElement();
+			String value = multipartRequest.getParameter(name);
+			articleMap.put(name, value);  // 수정창에서 수정한 글 정보를 전송해서 HashMap에 Key,value로 저장
+		}
+		String imageFileName = upload(multipartRequest); // 수정 파일첨부 시->temp폴더에 임시 업로드->이미지 파일명 얻어온다 
+		HttpSession session = multipartRequest.getSession(); // --> 스프링에서는 getSession -> 어노테이션을 이용할 수 있다.
+		MemberVO memberVO = (MemberVO) session.getAttribute("member"); // 로그인 시 저장한 "member"를 가져온다
+		String id = memberVO.getId(); // 세션에 저장된 회원 정보로부터 회원 ID를 가져온다
+		articleMap.put("id", id); 
+		articleMap.put("imageFileName", imageFileName); // articleMap에 id와 imageFileName을 key로 저장한다.
+		
+		String articleNO = (String) articleMap.get("articleNO"); // 글 번호를 가져온다.
+		String message;
+		ResponseEntity resEnt = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		try {
+			boardService.modArticle(articleMap);
+			if(imageFileName !=null && imageFileName.length()!=0) {
+				File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName);
+				File destDir = new File(ARTICLE_IMAGE_REPO+"\\"+articleNO);
+				FileUtils.moveFileToDirectory(srcFile, destDir, true);
+				
+				String originalFileName = (String)articleMap.get("originalFileName");
+				File oldFile = new File(ARTICLE_IMAGE_REPO+"\\"+articleNO+"\\"+originalFileName);
+				oldFile.delete();
+			}
+			message = "<script>";
+			message += " alert('글을 수정했습니다.');";
+			message += " location.href='"+multipartRequest.getContextPath()+"/board/viewArticle.do?articleNo="+articleNO+"';";
+			message += "<script>";
+			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		} catch (Exception e) {
+			File srcFile = new File(ARTICLE_IMAGE_REPO+"\\"+"temp"+"\\"+imageFileName);
+			srcFile.delete();
+			message = "<script>";
+			message += " alert('오류가 발생했습니다.다시 수정해주세요');";
+			message += " location.href='"+multipartRequest.getContextPath()+"/board/viewArticle.do?articleNo="+articleNO+"';";
+			message += "<script>";
+			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		}
+		return resEnt;
+	}
+	
 	
 	// BoardControllerImpl내에서만 사용되는 메소드
 	private String upload(MultipartHttpServletRequest multipartRequest) throws Exception{

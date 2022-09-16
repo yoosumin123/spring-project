@@ -21,6 +21,7 @@ public class BoardDAOImpl implements BoardDAO{
 		return articlesList;
 	}
 	
+	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException{
 		int articleNO = selectNewArticleNO(); // 추가할 글의 글 번호를 얻어온다.
 		articleMap.put("articleNO", articleNO); // articleMap에 articleNO로 글 번호를 저장한다.
@@ -39,9 +40,13 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.selectOne("mapper.board.selectNewArticleNO");
 	}
 	
+	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException{
 		sqlSession.update("mapper.board.updateArticle", articleMap); // board.xml에 해당 id의 sql문으로 articleMap을 전달
 	}
 
-	
+	@Override
+	public void deleteArticle(int articleNO) throws DataAccessException{
+		sqlSession.delete("mapper.board.deleteArticle", articleNO);
+	}
 }

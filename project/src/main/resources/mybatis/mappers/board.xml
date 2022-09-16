@@ -60,23 +60,28 @@
 	
 	
 	<update id="updateArticle" parameterType="java.util.Map">
-      <![CDATA[
+	 <![CDATA[
           update t_board
           set title=#{title},
           content=#{content}
-           <if test="imageFileName !='' and imageFileName !=null">
+           <if test="imageFileName!='' and imageFileName!=null">
            , imageFileName=#{imageFileName}
            </if>
            where articleNO=#{articleNO}
-      ]]>
+            ]]>
 	</update> 
 	
+	<!-- 자식 글 까지 삭제하는 SQL -->
+	<delete id="deleteArticle" parameterType="int">
+      <![CDATA[
+          delete from t_board
+          where articleNO in (
+          	SELECT articleNO FROM t_board
+          	START WITH articleNO = #{articleNO}
+          	CONNECT BY PRIOR articleNO = parentNO )
+      ]]>
+	</delete>
 	
 	
-	
-	
-
-
-
 
 </mapper>

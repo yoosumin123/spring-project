@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-    isELIgnored="false" %>
+    pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-  request.setCharacterEncoding("UTF-8");
-%> 
+<%  request.setCharacterEncoding("UTF-8");%> 
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <head>
    <meta charset="UTF-8">
@@ -29,6 +26,11 @@
 		 document.getElementById("i_imageFileName").disabled=false;
 		 document.getElementById("tr_btn_modify").style.display="block";
 		 document.getElementById("tr_btn").style.display="none";
+		 
+		 document.getElementById("tr_file_upload").style.visibility="visible";
+		 document.getElementById("tr_file_upload2").style.visibility="visible";
+		 document.getElementById("tr_file_upload3").style.visibility="visible";
+		 
 	 }
 	 
 	 function fn_modify_article(obj){
@@ -112,12 +114,11 @@
     <textarea rows="20" cols="60"  name="content"  id="i_content"  disabled />${article.content }</textarea>
    </td>  
   </tr>
- 
+
+<%--  
 <c:if test="${not empty article.imageFileName && article.imageFileName!='null' }">  
 <tr>
-    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">
-      이미지
-   </td>
+    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">이미지</td>
    <td>
      <input  type= "hidden"   name="originalFileName" value="${article.imageFileName }" />
     <img src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}" id="preview"  /><br>
@@ -130,6 +131,37 @@
     </td>
   </tr>
  </c:if>
+  --%>
+  
+  <c:choose>
+  	<c:when test="${not empty article.imageFileName && article.imageFileName!='null'}">
+  	<tr>
+  		<td width="150" align="center" bgcolor="#FF9933" rowspan="2"> 이미지 </td>
+  		<td><input type="hidden" name="originalFileName" value="${article.imageFileName}"/>
+  			<img src="${contextPath}/download.do?articleNO=${article.articleNO}&imageFileName=${article.imageFileName}" 
+  			id="preview"><br></td>
+  	</tr>
+  	<tr>
+  		<td></td>
+  		<td><input type="file" name="imageFileName" id="i_imageFileName" disabled onchange="readURL(this);"/></td>
+  	</tr>
+  	</c:when>
+  	<c:otherwise>
+  		<tr id ="tr_file_upload" style="visibility:hidden">
+  			<td width="150" align="center" bgcolor="#FF9933" rowspan="2">이미지</td>
+  			<td><input type="hidden" name="originalFileName" value="${article.imageFileName}" /></td>
+  		</tr>
+  		<tr id ="tr_file_upload2" style="visibility:hidden">
+  			<td ><img id="preview"></td>
+  			<td></td>
+  		</tr>
+  		<tr id ="tr_file_upload3" style="visibility:hidden">
+  			<td></td>
+  			<td><input type="file" name="imageFileName" id="i_imageFileName" disabled onchange="readURL(this);" /></td>
+  		</tr>
+  	</c:otherwise>
+  </c:choose>
+  
   <tr>
 	   <td width="150" align="center" bgcolor="#FF9933">
 	      등록일자

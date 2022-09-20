@@ -12,6 +12,9 @@
 ### 09.13~09.20
 ![소스트리](https://user-images.githubusercontent.com/105259309/191186965-a29d443b-3f17-4116-bfdc-e81f8cc67279.png)
 ## 사용 기술
+
+[기술 설명 보기](https://coal-source-32b.notion.site/Spring-5625c754663a4d97af702dc1651d604c)
+
 ### Back
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 
@@ -20,6 +23,9 @@
 
 ### Database
 <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white">
+
+
+
 
 ## 개발 도구
 |도구|버전|

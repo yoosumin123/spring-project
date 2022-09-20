@@ -29,16 +29,16 @@ public class BoardDAOImpl implements BoardDAO{
 		return articleNO; // 업로드한 파일을 저장할 폴더명을 만들기 위해 글 번호를 controller로 반환한다.
 	}
 	
+	private int selectNewArticleNO() throws DataAccessException{ // 글 번호 얻어오는 메소드 
+		return sqlSession.selectOne("mapper.board.selectNewArticleNO");
+	}
+	
 	
 	@Override
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
 		return sqlSession.selectOne("mapper.board.selectArticle", articleNO); // board.xml에 해당 id의 sql문으로 articleNO를 전달
 	}
 	
-	
-	private int selectNewArticleNO() throws DataAccessException{ // 글 번호 얻어오는 메소드 
-		return sqlSession.selectOne("mapper.board.selectNewArticleNO");
-	}
 	
 	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException{

@@ -41,38 +41,37 @@
 
 **notion :** (https://coal-source-32b.notion.site/Spring-5625c754663a4d97af702dc1651d604c)
 ### 1.메인 화면
-<img src="https://user-images.githubusercontent.com/105259309/191200191-32fb72c3-d4cc-4722-b55d-7c3a1a5b4654.png" width="800" height="400">
+<img src="https://user-images.githubusercontent.com/105259309/194516612-1876bb69-bb2a-4d7c-9fe9-967352e0b610.PNG" width="800" height="400">
 
 ### 2.회원가입 화면
-<img src="https://user-images.githubusercontent.com/105259309/191204781-8f6701dc-a7df-439a-ab0a-fb22b4be88db.png" width="800" height="400">
+<img src="https://user-images.githubusercontent.com/105259309/194517188-21382b91-2164-4f4a-8b52-894beec76cf3.PNG" width="800" height="400">
     
 ### 3.로그인 화면
-<img src="https://user-images.githubusercontent.com/105259309/191199906-d2562f1c-1fb5-4154-b586-571994e24c81.png" width="800" height="400">
+<img src="https://user-images.githubusercontent.com/105259309/194517606-66eb8844-3592-411f-bdad-a66bd60e0be3.PNG" width="800" height="400">
     
 #### 3.1 로그인 검사 실패
 <img src="https://user-images.githubusercontent.com/105259309/191200906-6b01d012-30f6-4780-8ccf-50eff9e53e8c.png" width="400" height="200">
 
 #### 3.2 로그인 검사 성공
-<img src="https://user-images.githubusercontent.com/105259309/191203412-d55c46ed-f5b6-450a-bafd-d07d98f561ca.png" width="800" height="400">
+<img src="https://user-images.githubusercontent.com/105259309/194517894-10866b07-551c-40fb-8784-9b8b606ae1ff.PNG" width="800" height="400">
 
 ### 4.게시판 화면
-<img src="https://user-images.githubusercontent.com/105259309/191205193-5ca9e159-66a4-4357-89b1-305160ecb33e.png" width="800" height="400">
+<img src="https://user-images.githubusercontent.com/105259309/194518193-21b3d83b-a0b6-4a50-bd97-91adc970f559.PNG" width="800" height="400">
     
 #### 4.1 글 등록 메시지
 <img src="https://user-images.githubusercontent.com/105259309/191205437-bd823699-5f0d-4f5b-be32-7ba30ce30b6b.png" width="400" height="200">
 
 #### 4.2 글 등록 성공
-<img src="https://user-images.githubusercontent.com/105259309/191206050-34eb752e-5372-45bd-89ab-12bd88426e8e.png" width="800" height="600">
+<img src="https://user-images.githubusercontent.com/105259309/194518352-42716201-7599-40b6-9265-7ba8a24c4b12.PNG" width="800" height="600">
     
 ### 5.글 수정 
-<img src="https://user-images.githubusercontent.com/105259309/191211201-93b97d98-ae74-4319-977d-d36fc7488296.png" width="800" height="600">
+<img src="https://user-images.githubusercontent.com/105259309/194518520-594b95b6-ec5f-45b0-bce6-29002752b3e0.PNG" width="800" height="600">
     
 #### 5.1 글 수정 성공 메시지
 <img src="https://user-images.githubusercontent.com/105259309/191210020-fe86af25-d638-42b4-94d0-565a6c9a3bbd.png" width="400" height="200">
     
 #### 5.2 글 수정 성공 화면
-<img src="https://user-images.githubusercontent.com/105259309/191211414-4e979582-edee-462d-a01e-952a714509ab.png" width="600" height="500">
-<img src="https://user-images.githubusercontent.com/105259309/191211587-57ee5ef6-d0a7-4e3c-86e9-d0f5b5599c9d.png" width="600" height="500">
+<img src="https://user-images.githubusercontent.com/105259309/194518684-eaf99adc-6a7d-4361-9ae0-7c9b35626b70.PNG" width="600" height="500">
 </details>
 
 
